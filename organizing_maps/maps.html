@@ -1,0 +1,30 @@
+<html>
+   <head>
+      <title>Self Organizing Map</title>
+      <script src = 'maps.js'></script>
+   </head>
+   <body>
+
+      <script>
+         var canvas = document.createElement('canvas');
+         canvas.width = 700;
+         canvas.height = 700;
+         document.body.appendChild(canvas);
+         var context = canvas.getContext('2d');
+         var count = 0;
+
+         var inputs = [[.9,.3,.2], [.3443, .1232, .7686], [.1232, .343, .1232], [.7,.6,.4]];
+         var map = new Map(inputs, 3, 30, 20, canvas);
+         document.addEventListener('mousedown', function(){
+            map.read_inputs(1000); //completely resets the process?, in the future
+            //how to design so you can watch the process incrementally
+            map.clear();
+            map.render();
+         });
+
+         map.render();
+
+      </script>
+
+   </body>
+</html>
