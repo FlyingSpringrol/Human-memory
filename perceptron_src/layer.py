@@ -17,6 +17,8 @@ class Layer(object):
             for other_neuron in output_layer.neurons:
                 this_neuron.connect_output(other_neuron)
     def propagate_layer(self):
+        if (self.id == 'layer0'): #no calculation on input
+            return
         for neuron in self.neurons:
             neuron.calculate()
     def backprop(self):

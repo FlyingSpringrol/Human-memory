@@ -1,5 +1,9 @@
 """
-Returns an array with words linked together. (No punctuation.)
+Returns punctuated paragraph.
+
+Things to add:
+    -Bidirectional reading
+    -Variable prefix lengths (calculated with )
 
 """
 import string
@@ -15,7 +19,6 @@ class Markov(object): #add gutenberg project specific reading methods
         f = open(self.path, 'r')
         block = []
         for line in f.readlines(): #returns each lines
-            line = self.remove_punc(line) #processes
             words = line.split(' ') #get individual words
             for word in words:
                 if word == ' ':
@@ -38,12 +41,6 @@ class Markov(object): #add gutenberg project specific reading methods
             else:
                 #initializes the suffix array
                 self.markov[prefix] = [block[idx+prefix_size]]
-
-    def remove_punc(self,line):
-        line = line.lower().strip()
-        for punc in string.punctuation:
-            line = line.replace(punc, '')
-        return line
 
     def print_dictionary(self):
         print self.markov

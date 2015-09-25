@@ -17,7 +17,7 @@ class Connection(object):
         self.output = output
         self.learning_rate = learning_rate
 
-        self.weight = random.uniform(-1,1)
+        self.weight = random.uniform(-1,1)#np.random.randn(0,1)
         self.weight_gradient = 0
         self.momentum = 1
     def set_weights(self, net_size): #assuming algorithmic answer to net size and weight distribution

@@ -17,6 +17,9 @@ biological constraints. For example, the kohonen net is based on comparative
 error, and I'm not sure if neurons would ever be able to do such precise
 calculations by only summing dendrite inputs.
 
+Basically it works by creating a field of several different classification populations (by populations I mean the blobs of similar vectors). It's pretty interesting, and I'm going to try to think of ways in which you could chain a bunch of SOM's together to compute something more complicated that a classification problem. 
+
+
 It would be cool to get some more data and explore the categorization power of SOMs.
 
 ###2) Hopfield net(implemented in python):

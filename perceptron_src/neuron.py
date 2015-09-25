@@ -23,7 +23,7 @@ class Neuron(object):
         self.outputs = []
         self.inputs = []
         #bias
-        self.bias = random.uniform(-1,1)/5
+        self.bias = random.uniform(-1,1)#np.random.randn(0,1)
         #state variables
         self.activation = 0
         self.state = 0

@@ -66,7 +66,7 @@ class Network(object):
         input_layer = self.layers[0]
         for i in range(len(inputs)):
             in_neuron = input_layer.neurons[i]
-            in_neuron.activation = inputs[i]
+            in_neuron.state = inputs[i]
 
     def recover(self): #used to reset all neuron and connection variables, called recursively
         for layer in self.layers:
@@ -89,7 +89,7 @@ class Network(object):
                 idx = start_idx - i
             layer = self.layers[idx]
             layer.backprop()
-            self.adjust()
+        self.adjust() #adjust after all layers have backpropagated
         #adjust all weights and biases
 
     def adjust(self):
@@ -152,8 +152,8 @@ class Network(object):
         for neuron in output.neurons:
             print 'activation:' + str(neuron.state)
 def test_xor():
-    xor_net = Network([2,3,1], -2, der_MSE)
-    xor_net.train_xor(100000)
+    xor_net = Network([2,3,1], -3, der_MSE)
+    xor_net.train_xor(2000)
 def test_sine():
     sine_net = Network([1,20,1], -3, der_MSE)
     sine_net.train_sine(10000)
