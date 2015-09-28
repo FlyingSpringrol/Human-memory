@@ -8,6 +8,8 @@ their learning rules, and how our minds work!
 
 I'm also trying to focus on biologically feasible systems.
 
+Projects are implemented in Javascript and Python. 
+
 
 WIP(s):
 ###1) Self organizing map/ Kohonen net (implemented in Javascript):
@@ -17,21 +19,24 @@ biological constraints. For example, the kohonen net is based on comparative
 error, and I'm not sure if neurons would ever be able to do such precise
 calculations by only summing dendrite inputs.
 
-Basically it works by creating a field of several different classification populations (by populations I mean the blobs of similar vectors). It's pretty interesting, and I'm going to try to think of ways in which you could chain a bunch of SOM's together to compute something more complicated that a classification problem. 
+Basically a SOM works by creating a field of several different classification populations (by populations I mean the blobs of similar weight vectors). They're very interesting, and I'm going to try to think of ways in which you could chain a bunch of SOM's and feature extractors together to compute something more complicated than a simple classification problem.
+I've read in several places that these are the "ideal model for human memory", but I seriously doubt these nets are the entire story. They might be a PART of human memory, but I think the remarkable type diversity of memory circuits in the brain will surprise us.
 
+Just writing this one down... Not sure how this idea is connected yet but are a bunch of simple graded "yes/no" responses enough to  match the accuracy of a single backpropagated ideal solution?
 
-It would be cool to get some more data and explore the categorization power of SOMs.
-
-###2) Hopfield net(implemented in python):
+###2) Hopfield net:
 I've only just started working on this one, and am still reading about the network dynamics, inputs, outputs, and training. Honestly, I haven't found any good links yet.
 
 ###3)Python Neural net:
- Currently has a training problem (probably an indexing bug). Training a xor takes about 10000 iterations, which shouldn't happen.
-
+Object driven approach to implementing a neural net. (Python)
 
 ###4) Markov Chains:
 
-While not immediately relevant to connected and synchronized systems, markov models are easy to implement, and demonstrate the power of MEMORY, that is, using past experiences for computing future possibilities. (By storing words)
+While not immediately relevant to connected and synchronized systems, markov models are easy to implement, and demonstrate the power of MEMORY, that is, using past experiences for computing future possibilities.
+
+###5) Deep Belief Networks:
+
+I have no idea what these are yet! Wooh! But I'll start writing them soon.
 
 ###Links to models of biological systems:
 

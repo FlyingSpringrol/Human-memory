@@ -6,6 +6,7 @@
    <body>
 
       <script>
+         var dimension = parseInt(window.prompt("Dimension of input?"));
          var canvas = document.createElement('canvas');
          canvas.width = 700;
          canvas.height = 700;
@@ -13,8 +14,21 @@
          var context = canvas.getContext('2d');
          var count = 0;
 
-         var inputs = [[.9,.3,.2], [.3443, .1232, .7686], [.1232, .343, .1232], [.7,.6,.4]];
+         if (dimension){
+            var inputs = createInputs(dimension);
+         }
          var map = new Map(inputs, 3, 30, 20, canvas);
+         function createInputs(dimension){
+            var input = [];
+            for (var i = 0; i< dimension; i++){
+               var row = [];
+               for (var j = 0; j < 3; j++){ //three being the amount of inputs... rgb color space right
+                  row.push(Math.random());
+               }
+               input.push(row);
+            }
+            return input;
+         }
          document.addEventListener('mousedown', function(){
             map.read_inputs(1000); //completely resets the process?, in the future
             //how to design so you can watch the process incrementally
