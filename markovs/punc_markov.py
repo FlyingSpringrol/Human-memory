@@ -15,18 +15,21 @@ class Markov(object): #add gutenberg project specific reading methods
         self.path = path #path = path to file
         self.markov = dict()
         self.create_markov()
-    def create_markov(self): #parse out spaces, treat punctuation as words?
+    def create_markov(self): #creates block then runs read_block on it
         f = open(self.path, 'r')
-        block = []
+        block = [] #creates block
         for line in f.readlines(): #returns each lines
             words = line.split(' ') #get individual words
             for word in words:
-                if word == ' ':
+                if word == ' ': #removing the spaces
                     words.remove(word)
-            for word in words:
-                block.append(word.strip())
+                word = word.strip()
+                temp_words = self.parse_punctuation(word) #temp words = temp array
+                for section in temp_words:
+                    block.append(section)
 
         prefix_size = 2
+
         self.read_block(prefix_size,block) #first arg = size of prefix-blocks
 
     def read_block(self, prefix_size, block):
@@ -44,6 +47,12 @@ class Markov(object): #add gutenberg project specific reading methods
 
     def print_dictionary(self):
         print self.markov
+    def parse_punctuation(self, word):
+        for idx, letter in enumerate(word):
+            for punc in string.punctuation:
+                if (letter == punc):
+                    return [word[:idx], word[idx]]
+        return [word]
 
     def get_random_output(self, prefix_array):
         #prefix array is two word array
