@@ -9,6 +9,7 @@ Things to add:
 import string
 import numpy as np
 import random
+import sys
 
 class Markov(object): #add gutenberg project specific reading methods
     def __init__(self, path):
@@ -83,9 +84,7 @@ class Markov(object): #add gutenberg project specific reading methods
             array_len = len(random_words)#recalculate array length
         return random_words
 
-def main(path):
+for arg in sys.argv:
+    path = str(arg)
     markov1 = Markov(path)
-    #markov1.print_dictionary()
     print markov1.generate_paragraph(100)
-
-main('henry.txt')
