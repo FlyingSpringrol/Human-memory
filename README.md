@@ -32,6 +32,7 @@ I've only just started working on this one, and am still reading about the netwo
 From my understanding, they are ways of creating associative memory. They can store and retrieve information through an incredible amount of input noise.  
 http://www.scholarpedia.org/article/Hopfield_network
 http://www.cs.toronto.edu/~mackay/itprnn/ps/506.522.pdf
+https://www.youtube.com/watch?v=gfPUWwBkXZY
 
 ###3)Python Neural net:
 Object oriented approach to implementing a neural net. (Python)
