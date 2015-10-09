@@ -122,8 +122,8 @@ a = np.asarray(a)
 b = np.asarray(b)
 c = np.asarray(c)
 
-test1 = [-1,-1,1,1,1]
-test2 = [-1,1,-1,-1,1]
+test1 = np.asarray([-1,-1,1,1,1])
+test2 = np.asarray([-1,1,-1,-1,1])
 
 
 def makeT():
