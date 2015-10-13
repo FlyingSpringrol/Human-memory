@@ -1,137 +1,126 @@
-import numpy as np
-import random
-""""
-Hopfield nets: single layers, fully connected NN
--Symmetric weights
--Network of oscillators
-
-
-Store patterns: infer nearby solution when presented with corrupted input
-Core idea: minimizing energy by correlating nodes
-
-Recurrent network that iterates through itself until a local minima is reached.
-Eg: The memory is returned
-
-
-Variables that affect ability to infer: (range of off values)
-Limit on stored memories
-Absolute minimums (screw up net)
-
-Dales law
-
-QUESTION:
-
---WHAT IS LOCAL CORRELATION!--
-Inputs have information about other inputs
-
 """
-def random_seq(list_size):
-    return 1# array of random indices
+Going to rewrite the code I had. It was getting far too convoluted and becoming
+an enormous time suck
+
+Upper limit on patterns stored?
+M/N ... .144
+
+Oscillating between all 1s and all -1s... common neural net error?
+Ooh, maybe that's where balance exists, avoiding deep convictions
+
+Fuck, shit just doesn't work.
+Will come back when I'm better at programming.
+"""
+import random
+import numpy as np
+import pdb
+
+def binary(input): #return 0 or 1
+    if (input >= 0):
+        return 1
+    else: return -1
+vec_bin = np.vectorize(binary)
+
+def tan_i(input):
+    return 1
+
+tan_i = np.vectorize(tan_i)
+
 
 class Hopfield(object):
-    def __init__(self, node_num, target_states):
-        self.nodes = node_num #self.nodes = # of nodes
-        self.target_states = target_states
-        self.weights = (2) * np.random.random((self.nodes, self.nodes)) -1 #random range from -1 to 1
-        self.rate = 1/self.nodes
-        self.states = np.random.random(self.nodes)
-        self.biases = np.zeros(self.nodes)
+    def __init__(self, nodes, target_set):
+        self.num_nodes = nodes
+        self.nodes = np.zeros(self.num_nodes) #holds node activations
+        self.weights = self.init_weights(self.num_nodes) #weights
+        self.random_idxs = random.shuffle(np.arange(self.num_nodes)) #used in async updating
+        self.target_set = target_set
+        self.rate = 1/self.num_nodes
+        self.new_states = np.zeros(self.num_nodes)
+    def init_weights(self, node_num): #create symmetrical weight matrix
+        weights = np.random.uniform(-1,1, self.num_nodes)
+        weights = vec_bin(np.matrix(weights).transpose() * np.matrix(weights))
+        np.fill_diagonal(weights,0)
+        return weights
 
+    def async_update(self): #nodes selected randomly
+        node_idx = random.randint(0,self.num_nodes-1)
+        self.calc_activation(node_idx)
+        self.nodes = vec_bin(self.nodes)
 
-    def sync_update(self):
-        #has to find the node activation * the weight + bias
-        sums = np.zeros(self.nodes)
-        for nodeIdx, node1 in enumerate(self.states):
-            for idx, node2 in enumerate(self.states):
-                if idx == nodeIdx: continue
-                sums[nodeIdx] += self.weights[idx,nodeIdx] * self.states[idx] #weight* activation
-        self.states = sums
-        self.binary_sums() #states = 1 or -1
+    def calc_activation(self, node_idx): #calculates node activation
+        sum = 0
+        for i in range(self.nodes.size): #iterate down column
+            if i == node_idx: #avoid self-connection, which is 0 anywat
+                continue
+            sum += self.weights[i, node_idx] * self.nodes[i]
+        self.new_states[node_idx] = sum #store new states in array
 
-    def binary_sums(self):
-        self.states = [self.flip(input) for input in self.states]
+    def sync_update(self): #first iteration = all -1's for the weights
+        for node_idx, node in enumerate(self.nodes):
+            self.calc_activation(node_idx)
+        self.new_states = vec_bin(self.new_states)
 
-    def flip(self, input):
-        if (input > 0):
-            return 1
-        else: return -1
-    def async_update(self):
-        #come back and make sure, self-connections are 0?
-        for i in range(self.nodes):
-            nodeIdx = random.randint(0, self.nodes-1)
-            sum = 0
-            for idx, node in enumerate(self.states):
-                if idx == nodeIdx: continue
-                sum += self.weights[idx,nodeIdx] * self.states[idx] #weight* activation
-            self.states[nodeIdx] = self.flip(sum)
     def update_weights(self):
-        """
-        newWeight matrix = old weight matrix  + learning rate * (nodes * nodesTransposed - identity)
+        #change in weights == xi*xj (xi being neuron1, xj being neuron2)
+        pNew = (np.matrix(self.nodes).transpose()*np.matrix(self.nodes)) - np.identity(self.num_nodes)
+        self.weights = self.weights + pNew
+        #np.fill_diagonal(self.weights,0) #fill self connections
 
-        """
-        pNew = (np.matrix(self.states) * np.matrix(self.states).transpose() - np.identity(len(self.states)))
-        flip = np.vectorize(self.flip)
-        self.weights = self.weights + self.rate * pNew
-        self.weights = flip(self.weights)
-
-
-    def iterate(self, inputs, iterations):
-        for i in range(iterations):
-            for input in inputs:
-                self.states = input
-                self.async_update()
+    def run(self, max_iterations = 4):
+        self.max_patterns() #prints the patterns that can be stored
+        for target in self.target_set:
+            iterations = 0
+            stable = False
+            while not stable and iterations < max_iterations:
+                iterations+=1
+                self.nodes[:] = target[:] #sets each number to target value
+                self.sync_update()
+                #stable = self.search_for_change() #checks to see if nodes == new_states
+                self.nodes = self.new_states
                 self.update_weights()
         print self.weights
-    def check(self, target): #checks if target == current states
-        if (self.states == target).all():
-            print "found"
-            print target
-            return True
+        #pdb.set_trace()
+    def test(self, input):
+        self.nodes = np.copy(input)
+        for i in range(2): #runs 1000 times before returning false
+            self.sync_update()
+            if self.check_all():
+                print "Found! Sequence is " + str(self.nodes)
+                return True
         return False
 
-    def inject(self, inputs, targets):
-        test = 0 #used for printing
-        for input in inputs:
-            actualFound = False
-            possible = 1000 #max iterations of searching
-            while actualFound == False and possible > 0:
-                possible -=1
-                self.states = input
-                self.async_update()
-                for target in targets:
-                    found = self.check(target) #being reassigned by last call
-                    if (found == True):
-                        actualFound = True
-            test += 1
-            print "test" + str(test) + str(input)
-            print self.states
+    def check_all(self):
+        for target in self.target_set:
+            if self.check(target):
+                return True
+        return False
+    def check(self, target):
+        for i in range(self.nodes.size):
+            if (self.nodes[i] != target[i]):
+                return False
+        return True
+    def search_for_change(self): #stop updating weights if stable state is reached
+        return np.array_equal(self.new_states, self.nodes)
 
-    def output(self):
-        answer = ""
-        for node, idx in enumerate(self.nodes):
-            answer += 'output' + idx + ': ' + node + ' '
-        print answer
-
-    def calculate(self, input, type):
-        print a
+    def validate_weights(self): #weights must be symetrical, so should output a zero matrix
+        #just compares the difference in the weight tranpose with a zero matrix
+        zeroed_weights = (self.weights - self.weights.transpose())
+        zero = np.matrix(np.zeros((self.num_nodes, self.num_nodes)))
+        return np.array_equal(zero, zeroed_weights)
+    def max_patterns(self):
+        #return the maximum amount of patterns
+        print 'Maximum patterns for this net: ' + str(.144 * self.num_nodes)
 
 a = [1,1,1,1,1]
-b = [-1,-1,-1,-1,-1]
-c = [1,1,1,-1,-1]
+b = [1,1,1,1,1]
 a = np.asarray(a)
 b = np.asarray(b)
-c = np.asarray(c)
-
-test1 = np.asarray([-1,-1,1,1,1])
-test2 = np.asarray([-1,1,-1,-1,1])
-
-
-def makeT():
-    a = 2
+test1 = np.asarray([1,1,1,1,1])
+test2 = np.asarray([1,1,1,1,1])
 
 def main():
-    hop = Hopfield(5, [[0,1,1,0,1]])
-    hop.iterate([a,b,c], 1000)
-    hop.inject([test1,test2, c], [a,b,c])
-if __name__ == "__main__":
-    main()
+    hop = Hopfield(5,[a,b])
+    hop.run()
+    hop.test(test1)
+    hop.test(test2)
+main()

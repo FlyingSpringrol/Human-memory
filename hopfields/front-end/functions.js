@@ -28,8 +28,8 @@ function convertPixels(pixelData){
 
 function createMatrix(n){ //create n * n matrix, filled with undefined values
    var matrix = new Array(n);
-   for (var i = 0; i < array.length; i++){
-      array[i] = new Array(n);
+   for (var i = 0; i < matrix.length; i++){
+      matrix[i] = new Array(n);
    }
    return matrix;
 }
@@ -38,7 +38,7 @@ function fillMatrix(matrix, unitWidth, startX, startY){ //startX and y are canva
    //fill array with its points by directly modifying its values
    for (var i = 0; i < matrix.length; i++){
       var row = matrix[i];
-      var y = startY * (i+1);
+      var y = startY * (i+1) * unitWidth;
       for (var j = 0; j < row.length; j++){
          var x = startX * (j + 1) * unitWidth;
          row[j] = {'x': x, 'y': y, "active": false}; //object holding unit values
@@ -52,6 +52,7 @@ function detectClick(matrix, unitWidth, x, y){
       for (var j = 0; j < row.length; j++){
          var unit = row[j];
          if (x >= unit.x && y >= unit.y && x < unit.x + unitWidth && y < unit.y + unitWidth){
+            alert('detected');
             unit.active = true;
          }
       }
@@ -59,17 +60,40 @@ function detectClick(matrix, unitWidth, x, y){
 }
 
 function renderGrid(context, grid, unitWidth){
-
-}
-
-function renderLines(context, grid, unitWidth){
-   var width = grid.length * unitWidth;
-   var length = width;
    for (var i = 0; i < grid.length; i++){
       var row = grid[i];
       for (var j = 0; j < row.length; j++){
          var unit = row[j];
-         
+         if (!unit.active){
+            context.globalAlpha = .6;
+            context.fillRect(unit.x, unit.y, unitWidth, unitWidth);
+         }
+         else{
+            //non active render code
+         }
       }
    }
+}
+
+function renderLines(context, grid, unitWidth){ //iterate down a column, then a row, rendering a grid
+   var width = grid.length * unitWidth;
+   var height = width;
+   var row = grid[0];
+   for (var i = 0; i < row.length; i++){ //row iteration
+      var unit = row[i];
+      context.beginPath();
+      context.moveTo(unit.x, unit.y);
+      context.lineTo(unit.x, unit.y + height);
+      context.stroke();
+      context.closePath();
+   }
+   for (var j = 0; j < grid.length; j++){
+      var unit = grid[j][0];
+      context.beginPath();
+      context.moveTo(unit.x, unit.y);
+      context.lineTo(unit.x + width, unit.y);
+      context.stroke();
+      context.closePath();
+   }
+
 }

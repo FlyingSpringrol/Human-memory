@@ -1,0 +1,42 @@
+Just going to bundle up all of my hopfield net links:
+
+//Powerpoints, brief slides that would be better in person, but still are informative
+http://people.brandeis.edu/~berkes/data/cognitive_models/Hebbian_learning.pdf
+
+//Video on hopfields, full and comprehensive
+https://www.youtube.com/watch?v=gfPUWwBkXZY
+
+//Full in depth pdf on hopfields
+http://www.cs.toronto.edu/~mackay/itprnn/ps/506.522.pdf
+
+//Python implementation
+https://github.com/pmatigakis/hopfieldnet
+
+
+Theory:
+
+""""
+Hopfield nets: single layers, fully connected NN
+-Symmetric weights
+-Network of oscillators
+
+
+Store patterns: infer nearby solution when presented with corrupted input
+Core idea: minimizing energy by correlating nodes
+
+Recurrent network that iterates through itself until a local minima is reached.
+Eg: The memory is returned
+
+
+Variables that affect ability to infer: (range of off values)
+Limit on stored memories
+Absolute minimums (screw up net)
+
+Dales law
+
+QUESTION:
+
+--WHAT IS LOCAL CORRELATION!--
+Inputs have information about other inputs
+
+"""
