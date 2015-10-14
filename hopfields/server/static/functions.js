@@ -16,7 +16,6 @@ function simpleHttpRequest(url, grid, success, failure, params) {
             if (request.status == 200){
                console.log('successful transfer');
                info = request.responseText;
-               console.log(info);
                success(info, grid);
             }
             else{

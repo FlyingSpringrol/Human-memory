@@ -19,8 +19,9 @@ class Hopfield(object):
         self.new_states = np.zeros(self.num_nodes)
         self.rate = 1/self.num_nodes
         self.targets = targets
+        self.remembered = []
 
-    def train(self, target, max_iterations = 10):
+    def train(self, target, max_iterations = 100):
         iterations = 0
         self.current_states = np.copy(target)
         while iterations < max_iterations:
@@ -29,6 +30,7 @@ class Hopfield(object):
             self.sync_update() #updates the new_states
             if self.is_stable(): #compares new_states and current_states
                 print "Stable pattern"
+                self.remembered.append((target, self.current_states))
                 return True #stops the update
             self.current_states = np.copy(self.new_states)
             self.update_weights()
@@ -81,11 +83,14 @@ class Hopfield(object):
     """
     def test(self, input):
         self.current_states = np.copy(input)
-        for i in range(10): #runs 1000 times before returning false
+        for i in range(100): #runs 1000 times before returning false
             self.sync_update()
             self.current_states = np.copy(self.new_states)
             if self.is_stable():
                 print 'found pattern'
+                print 'current pattern', self.current_states
+                for memory in self.remembered:
+                    print memory[1]
                 return self.current_states
         print 'no pattern found'
         return self.current_states
@@ -111,3 +116,5 @@ def main():
     hop.test(test1)
     hop.test(test2)
     hop.test(test3)
+
+main();

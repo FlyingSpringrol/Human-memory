@@ -54,7 +54,7 @@
          run.addEventListener('click', function(){
             var json = JSON.stringify(grid);
             var result = simpleHttpRequest(runUrl, grid2, processJSON, failure, json);
-            renderGrid(context2, grid2, unitWidth);
+            //grid2 should be modified directly?
          });
          document.addEventListener('click', function(evt){
             var point = calculateOffset(evt.clientX, evt.clientY);
@@ -85,6 +85,11 @@
             else if (evt.keyCode === 83){ //keyCode = s
             }
          });
+         function render(){
+            renderGrid(context, grid, unitWidth);
+            renderGrid(context2, grid2, unitWidth);
+         }
+         window.setInterval(render, 1000);
       </script>
       <div>
 

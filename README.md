@@ -28,8 +28,12 @@ I've read in several places that these are the "ideal model for human memory", b
 Just writing this one down... Not sure how this idea is connected yet but are a bunch of simple graded "yes/no" responses enough to  match the accuracy of a single backpropagated ideal solution?
 
 ###2) Hopfield net:
-I've only just started working on this one, and am still reading about the network dynamics, inputs, outputs, and training. Honestly, I haven't found any really good tutorial links yet.
-From my understanding, they are ways of creating associative memory. They can store and retrieve information through an incredible amount of input noise.  
+I've only just started working on this one, and am still reading about the network dynamics, inputs, outputs, and training.
+Works on a simple matrix, but I plan on implementing a GUI based letter drawing system with a python backend, (mostly so I can practice html, css, and learn python servers/sockets)
+Theory behind Hopfield Nets:
+Minimization of an energy function to create content-adressable memory.
+Hopfield nets are incredibly interesting as they illustrate a recursive feeding network, that is, its output feeds back into its inputs. I think the saved, incrementally changing states of the net might be a perfect model for biological memory.  
+I wonder if recurrent systems have been observed in the brain, and if this recurrence is what allows for memory recall.
 http://www.scholarpedia.org/article/Hopfield_network
 http://www.cs.toronto.edu/~mackay/itprnn/ps/506.522.pdf
 https://www.youtube.com/watch?v=gfPUWwBkXZY
