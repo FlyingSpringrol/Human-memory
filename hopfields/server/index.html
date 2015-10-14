@@ -1,0 +1,98 @@
+<html>
+   <head 'Access-Control-Allow-Origin' = true>
+      <title>Hopfield Net</title>
+      <script src = './static/functions.js'></script>
+      <link rel = 'stylesheet' type = 'text/css' href = './static/styles.css'></link>
+   </head>
+   <body>
+      <div id = 'button'>
+         <button id = 'train'> Train! </button>
+         <button id = 'run'> Run! </button>
+      </div>
+      <script>
+         //grid declaration
+         var unitWidth = 10;
+         var gridSize = 8;
+         var startX = 1;
+         var startY = 1;
+         var grid = createMatrix(gridSize);
+         fillMatrix(grid,unitWidth, startX, startY);
+         var trainUrl = 'http://127.0.0.1:5000/hop_train';
+         var runUrl = 'http://127.0.0.1:5000/hop_run';
+
+         var grid2 = createMatrix(gridSize);
+         fillMatrix(grid2, unitWidth, startX, startY);
+         //canvases code
+         var canvas = document.createElement('canvas');
+         canvas.height = 200;
+         canvas.width = 200;
+         canvas.id = 'canvas1';
+         document.body.appendChild(canvas);
+         context = canvas.getContext('2d');
+         //canvas 2
+         var canvas2 = document.createElement('canvas');
+         canvas2.height = 200;
+         canvas2.width = 200;
+         canvas2.id = 'canvas2'
+         document.body.appendChild(canvas2);
+         context2 = canvas2.getContext('2d');
+
+         //initial drawing
+         renderLines(context, grid, unitWidth);
+         renderGrid(context, grid, unitWidth);
+         dragging = false;
+         renderLines(context2, grid2, unitWidth);
+         renderGrid(context2, grid2, unitWidth);
+
+         var train= document.getElementById('train');
+         var run = document.getElementById('run');
+
+         train.addEventListener('click', function(){
+            var json = JSON.stringify(grid);
+            simpleHttpRequest(trainUrl, grid, success, failure, json);
+         })
+         run.addEventListener('click', function(){
+            var json = JSON.stringify(grid);
+            var result = simpleHttpRequest(runUrl, grid2, processJSON, failure, json);
+            renderGrid(context2, grid2, unitWidth);
+         });
+         document.addEventListener('click', function(evt){
+            var point = calculateOffset(evt.clientX, evt.clientY);
+            detectClick(grid, unitWidth, point.x, point.y);
+            renderGrid(context, grid, unitWidth);
+         });
+         document.addEventListener('mousedown', function(evt){
+            dragging = true;
+         });
+         document.addEventListener('mouseup', function(evt){
+            dragging = false;
+         });
+         document.addEventListener('mousemove', function(evt){
+            if(dragging){ //Not very efficient: cpu usage preventing from detecting, repaint on each call?
+               context.fillStyle = 'black';
+               var point = calculateOffset(evt.clientX, evt.clientY);
+               detectClick(grid, unitWidth, point.x, point.y);
+               renderGrid(context, grid, unitWidth);
+            }
+         });
+         document.addEventListener('keydown', function(evt){
+            if (evt.keyCode===32){
+               fillMatrix(grid,unitWidth, startX, startY);
+               fillMatrix(grid2, unitWidth, startX, startY);
+               renderGrid(context, grid, unitWidth);
+               renderGrid(context2, grid2, unitWidth);
+            }
+            else if (evt.keyCode === 83){ //keyCode = s
+            }
+         });
+      </script>
+      <div>
+
+      </div>
+      <div>
+
+      </div>
+
+
+   </body>
+</html>
