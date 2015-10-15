@@ -4,7 +4,7 @@ function calculateOffset(x,y){
    return point;
 }
 
-function simpleHttpRequest(url, grid, success, failure, params) {
+function sendData(url, grid, success, failure, params) {
    //url to get information from, success = function, failure=function
    var request = new XMLHttpRequest();
    request.open("POST", url, true);
@@ -20,6 +20,25 @@ function simpleHttpRequest(url, grid, success, failure, params) {
             }
             else{
                failure();
+            }
+        }
+   };
+}
+
+function resetNet(url){
+   var request = new XMLHttpRequest();
+   request.open("GET", url, true);
+   //request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+   //why does setting the request header screw everything up?
+   request.send();
+   request.onreadystatechange = function() {
+         if (request.readyState == 4) {
+            if (request.status == 200){
+               console.log('the net was reset');
+               info = request.responseText;
+            }
+            else{
+               console.log('not read');
             }
         }
    };
@@ -161,10 +180,6 @@ function resetGrid(grid){
          row2[j] = 0;
       });
    });
-}
-
-function getHopData(){ //used in
-
 }
 
 function createMatrix(n){ //create n * n matrix, filled with undefined values

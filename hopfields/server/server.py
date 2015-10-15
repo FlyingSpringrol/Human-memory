@@ -40,8 +40,8 @@ def translate_bools(input):
     else: return -1
 
 def train_hop(input_array):
-    input = np.asarray(input_array)
-    hop.train(input)
+    target = np.asarray(input_array)
+    hop.add_target(target)
 
 def run_hop(input_array):
     input = np.asarray(input_array)
@@ -50,6 +50,8 @@ def run_hop(input_array):
 def translate(nump_array):
     arr = np.ndarray.tolist(nump_array)
     return json.dumps(arr)
+def reset_hop():
+    hop.reset()
 
 @app.route('/')
 def sendFiles():
@@ -58,9 +60,17 @@ def sendFiles():
 @app.route('/hop_train', methods= ['GET', 'POST'])
 def post_response(): #runs all methods under route code?
     if request.method == 'POST':
-        read = read_input_json(request.data)
+        read = read_input_json(request.data) #converts to array
         train_hop(read)
         return 'hello'
+    else:
+        return 'request not read'
+@app.route('/hop_reset', methods= ['GET'])
+def reset():
+
+    if request.method == 'GET':
+        reset_hop()
+        return 'yo'
     else:
         return 'request not read'
 

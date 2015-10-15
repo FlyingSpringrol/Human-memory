@@ -8,6 +8,7 @@
       <div id = 'button'>
          <button id = 'train'> Train! </button>
          <button id = 'run'> Run! </button>
+         <button id = 'reset'> Reset! </button>
       </div>
       <script>
          //grid declaration
@@ -19,6 +20,7 @@
          fillMatrix(grid,unitWidth, startX, startY);
          var trainUrl = 'http://127.0.0.1:5000/hop_train';
          var runUrl = 'http://127.0.0.1:5000/hop_run';
+         var resetUrl = 'http://127.0.0.1:5000/hop_reset';
 
          var grid2 = createMatrix(gridSize);
          fillMatrix(grid2, unitWidth, startX, startY);
@@ -46,16 +48,20 @@
 
          var train= document.getElementById('train');
          var run = document.getElementById('run');
+         var reset = document.getElementById('reset');
 
          train.addEventListener('click', function(){
             var json = JSON.stringify(grid);
-            simpleHttpRequest(trainUrl, grid, success, failure, json);
-         })
+            sendData(trainUrl, grid, success, failure, json);
+         });
          run.addEventListener('click', function(){
             var json = JSON.stringify(grid);
-            var result = simpleHttpRequest(runUrl, grid2, processJSON, failure, json);
+            var result = sendData(runUrl, grid2, processJSON, failure, json);
             //grid2 should be modified directly?
          });
+         reset.addEventListener('click', function(){
+            resetNet(resetUrl);
+         })
          document.addEventListener('click', function(evt){
             var point = calculateOffset(evt.clientX, evt.clientY);
             detectClick(grid, unitWidth, point.x, point.y);

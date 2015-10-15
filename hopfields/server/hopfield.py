@@ -21,7 +21,7 @@ class Hopfield(object):
         self.targets = targets
         self.remembered = []
 
-    def train(self, target, max_iterations = 100):
+    def train(self, target, max_iterations = 10):
         iterations = 0
         self.current_states = np.copy(target)
         while iterations < max_iterations:
@@ -30,21 +30,28 @@ class Hopfield(object):
             self.sync_update() #updates the new_states
             if self.is_stable(): #compares new_states and current_states
                 print "Stable pattern"
-                self.remembered.append((target, self.current_states))
+                self.remembered.append((self.current_states, target))
                 return True #stops the update
             self.current_states = np.copy(self.new_states)
             self.update_weights()
         print 'No stable pattern established'
         return False
 
-    def add_target(self, target):
+    def add_target(self, target): #used for server training
         if (target.size != self.num_nodes):
             print "Wrong size inputs"
             return False
-        if (len(self.target) > self.max_patterns()):
-            self.targets = []
-        self.targets.append()
-        train(target)
+        if len(self.targets) > self.max_patterns(): #or should it prevent it from updating?
+            print 'targets reset'
+            self.reset()
+        self.targets.append(target)
+        self.train(target)
+        print len(self.targets)
+    def reset(self):
+        self.targets = []
+        self.current_states = vec_bin(np.random.uniform(-1,1, self.num_nodes))
+        self.weights = np.matrix(self.current_states).transpose() * np.matrix(self.current_states)
+        self.remembered = []
 
     def update_weights(self):
         pNew = np.matrix(self.current_states).transpose() * np.matrix(self.current_states) - np.matrix(np.identity(self.num_nodes))
@@ -70,31 +77,43 @@ class Hopfield(object):
             return True
         return False
 
+
     def run(self):
         for target in self.targets:
             self.train(target)
-        #print self.weights
+        print self.weights
     def max_patterns(self):
         #return the maximum amount of patterns
-        return (.144 * self.num_nodes)
+        return .144 * self.num_nodes
 
     """
     Test methods
     """
     def test(self, input):
         self.current_states = np.copy(input)
+        stable = 0
         for i in range(100): #runs 1000 times before returning false
             self.sync_update()
             self.current_states = np.copy(self.new_states)
             if self.is_stable():
-                print 'found pattern'
+                stable +=1
+            if stable >= 1:
+                """
+                Just offline test stuff
+                print '\n found pattern'
                 print 'current pattern', self.current_states
                 for memory in self.remembered:
-                    print memory[1]
-                return self.current_states
+                    print 'saved state', memory[1]
+                    print 'original target', memory[0]
+                """
+                return self.find()
         print 'no pattern found'
         return self.current_states
-        return False
+    def find(self): #iterate through the memories looking for the match
+        for memory in self.remembered:
+            if np.array_equal(memory[0], self.current_states):
+                return memory[1]
+        else: return self.current_states
     def print_states(self):
         print 'current states ', self.current_states
         print 'new states, ', self.new_states
@@ -103,10 +122,10 @@ class Hopfield(object):
 
 #testing stuff
 a = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-b = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+b = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1]
 a = np.asarray(a)
 b = np.asarray(b)
-test1 = np.asarray([-1,-1,1,1,1,1,1,1,1,1,1,1,1,1,1])
+test1 = np.asarray([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
 test2 = np.asarray([-1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1])
 test3 = np.asarray([1,1,1,1,1,1,1,-1,-1,-1,-1,-1,-1,-1,-1])
 def main():
@@ -117,4 +136,5 @@ def main():
     hop.test(test2)
     hop.test(test3)
 
-main();
+if __name__ == '__main__':
+    main()
