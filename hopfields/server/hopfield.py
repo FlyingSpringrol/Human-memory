@@ -48,10 +48,13 @@ class Hopfield(object):
         self.train(target)
         print len(self.targets)
     def reset(self):
+        print 'reset net'
         self.targets = []
         self.current_states = vec_bin(np.random.uniform(-1,1, self.num_nodes))
         self.weights = np.matrix(self.current_states).transpose() * np.matrix(self.current_states)
         self.remembered = []
+        np.fill_diagonal(self.weights, 0)
+        self.new_states = np.zeros(self.num_nodes)
 
     def update_weights(self):
         pNew = np.matrix(self.current_states).transpose() * np.matrix(self.current_states) - np.matrix(np.identity(self.num_nodes))
@@ -106,6 +109,7 @@ class Hopfield(object):
                     print 'saved state', memory[1]
                     print 'original target', memory[0]
                 """
+                print 'pattern found'
                 return self.find()
         print 'no pattern found'
         return self.current_states

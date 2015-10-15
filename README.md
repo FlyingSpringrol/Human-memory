@@ -22,17 +22,25 @@ biological constraints. For example, the kohonen net is based on comparative
 error, and I'm not sure if neurons would ever be able to do such precise
 calculations by only summing dendrite inputs.
 
-Basically a SOM works by creating a field of several different classification populations (by populations I mean the blobs of similar weight vectors). They're very interesting, and I'm going to try to think of ways in which you could chain a bunch of SOM's and feature extractors together to compute a complex classification problem.
-I've read in several places that these are the "ideal model for human memory", but I seriously doubt these nets are the entire story. They might be a PART of human memory, but I think the remarkable type diversity of memory circuits in the brain will surprise us. These nets probably loosely model the classification and categorization modules of our minds.
+Basically a SOM works by creating a field of several different classification populations through competive training. (Note: by populations I mean blobs of similar weight vectors). They're very interesting, and I'm going to try to think of ways in which you could chain a bunch of SOM's and feature extractors together to compute a complex classification problem.
+I've read in several places that these are the "ideal model for human memory", but I seriously doubt these nets are the entire story. They might be a PART of human memory, but I think the remarkable type diversity of memory circuits in the brain will surprise us. These nets at best probably just loosely model the classification and categorization modules of our minds.
 
-Just writing this one down... Not sure how this idea is connected yet but are a bunch of simple graded "yes/no" responses enough to  match the accuracy of a single backpropagated ideal solution?
+Just writing this one down... Not sure how this idea is connected to any of these ideas but are a bunch of simple graded "yes/no" responses enough to  match the accuracy of a single backpropagated ideal solution?
 
 ###2) Hopfield net:
-I've only just started working on this one, and am still reading about the network dynamics, inputs, outputs, and training.
-Works on a simple matrix, but I plan on implementing a GUI based letter drawing system with a python backend, (mostly so I can practice html, css, and learn python servers/sockets)
+Buggy! Still occasionally converges to a single/two possible patterns.Which is just not right. \n
+How to run:\n
+   Dependencies: \n
+   1.Flask\n
+   2.Numpy\n
+Download, move to server directory, and run the command 'python hopfield.py'. \n
+Next, open http://127.0.0.1:5000/ \n
+Next feel free to train and run all the mofocking patterns you want. \n
+
 Theory behind Hopfield Nets:
 Minimization of an energy function to create content-adressable memory.
 Hopfield nets are incredibly interesting as they illustrate a recursive feeding network, that is, its output feeds back into its inputs. I think the saved, incrementally changing states of the net might be a perfect model for biological memory.  
+I might have implemented my net wrong, but they work in a different way that I expected. See, I thought if I trained an 'H' for example, the net output would be an 'H', but the net output is actually the stable state that the 'H' was trained to. Why this is a bit disappointing is because you have to directly reference the trained states to pull out an input.
 I wonder if recurrent systems have been observed in the brain, and if this recurrence is what allows for memory recall.
 http://www.scholarpedia.org/article/Hopfield_network
 http://www.cs.toronto.edu/~mackay/itprnn/ps/506.522.pdf
@@ -54,10 +62,24 @@ Project idea:
 Webcrawl some sites to obtain current residential candidates speeches and run it through the markov model. It would be cool to see how the output differs in regard to rhetoric and topics.
 
 ###5) Deep Belief Networks:
+Generative models:
+Probabilistic inference networks: infer the relationship between the hidden units that could creates the visible effect. \n
 
-I have no idea what these are yet! Wooh! But I'll start writing them soon.
-src:
+Related Concepts:
+ :*RBMS (restricted boltzmann machines)
+ *Sigmoid Belief Networks
+ *Bayesian Networks
+ *Autoencoders
+
+\n
+deeplearning.net/tutorial/DBN.html
+https://www.youtube.com/watch?v=vkb6AWYXZ5I
 https://www.cs.toronto.edu/~hinton/nipstutorial/nipstut3.pdf
+
+###6) Other shit to learn:
+   : * Convolutional networks
+   : * Auto-encoder, (standard, variational)
+   : * Recurrent neural nets
 
 ###Links to models of biological systems:
 

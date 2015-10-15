@@ -18,7 +18,7 @@ Request objects, context object
 """
 app = Flask(__name__)
 test = {'a': 1, 'b':2}
-hop = Hopfield(64, []) #need to figure out a way to add new inputs to net
+hop = Hopfield(100, []) #need to figure out a way to add new inputs to net
 
 def serialize_hop(hop_output): #return as a matrix of states
     answer = dict()
@@ -80,7 +80,6 @@ def run_response():
         read = read_input_json(request.data)
         result = run_hop(read)
         json = translate(result)
-        print 'json', json
         return json
     else:
         print 'not read'
