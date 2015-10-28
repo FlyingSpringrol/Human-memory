@@ -28,14 +28,14 @@ I've read in several places that these are the "ideal model for human memory", b
 Just writing this one down... Not sure how this idea is connected to any of these ideas but are a bunch of simple graded "yes/no" responses enough to  match the accuracy of a single backpropagated ideal solution?
 
 ###2) Hopfield net:
-Buggy! Still occasionally converges to a single/two possible patterns.Which is just not right. \n
-How to run:\n
-   Dependencies: \n
-   1.Flask\n
-   2.Numpy\n
-Download, move to server directory, and run the command 'python hopfield.py'. \n
-Next, open http://127.0.0.1:5000/ \n
-Next feel free to train and run all the mofocking patterns you want. \n
+Buggy! Still occasionally converges to a single/two possible patterns.Which is just not right.  
+How to run: 
+   Dependencies:  
+   1.Flask
+   2.Numpy
+Download, move to server directory, and run the command 'python hopfield.py'.  
+Next, open http://127.0.0.1:5000/  
+Next feel free to train and run all the mofocking patterns you want.  
 
 Theory behind Hopfield Nets:
 Minimization of an energy function to create content-adressable memory.
@@ -63,7 +63,7 @@ Webcrawl some sites to obtain current residential candidates speeches and run it
 
 ###5) Deep Belief Networks:
 Generative models:
-Probabilistic inference networks: infer the relationship between the hidden units that could creates the visible effect. \n
+Probabilistic inference networks: infer the relationship between the hidden units that could creates the visible effect.  
 
 Related Concepts:
  :*RBMS (restricted boltzmann machines)
@@ -71,15 +71,15 @@ Related Concepts:
  *Bayesian Networks
  *Autoencoders
 
-\n
+
 deeplearning.net/tutorial/DBN.html
 https://www.youtube.com/watch?v=vkb6AWYXZ5I
 https://www.cs.toronto.edu/~hinton/nipstutorial/nipstut3.pdf
 
 ###6) Other shit to learn:
-   : * Convolutional networks
-   : * Auto-encoder, (standard, variational)
-   : * Recurrent neural nets
+     Convolutional networks
+     Auto-encoder, (standard, variational)
+     Recurrent neural nets
 
 ###Links to models of biological systems:
 

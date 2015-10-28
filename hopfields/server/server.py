@@ -45,7 +45,7 @@ def train_hop(input_array):
 
 def run_hop(input_array):
     input = np.asarray(input_array)
-    result = hop.test(input)
+    result = hop.test(input, 1) #bad values, just introduced, might ruin this
     return result
 def translate(nump_array):
     arr = np.ndarray.tolist(nump_array)
@@ -62,7 +62,7 @@ def post_response(): #runs all methods under route code?
     if request.method == 'POST':
         read = read_input_json(request.data) #converts to array
         train_hop(read)
-        return 'hello'
+        return 'Hop trained'
     else:
         return 'request not read'
 @app.route('/hop_reset', methods= ['GET'])
@@ -70,7 +70,7 @@ def reset():
 
     if request.method == 'GET':
         reset_hop()
-        return 'yo'
+        return 'Hopfield Reset'
     else:
         return 'request not read'
 
