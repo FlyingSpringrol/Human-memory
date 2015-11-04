@@ -29,7 +29,7 @@ Just writing this one down... Not sure how this idea is connected to any of thes
 
 ###2) Hopfield net:
 Buggy! Still occasionally converges to a single/two possible patterns.Which is just not right.  
-How to run: 
+How to run:
    Dependencies:  
    1.Flask
    2.Numpy
@@ -39,8 +39,9 @@ Next feel free to train and run all the mofocking patterns you want.
 
 Theory behind Hopfield Nets:
 Minimization of an energy function to create content-adressable memory.
-Hopfield nets are incredibly interesting as they illustrate a recursive feeding network, that is, its output feeds back into its inputs. I think the saved, incrementally changing states of the net might be a perfect model for biological memory.  
-I might have implemented my net wrong, but they work in a different way that I expected. See, I thought if I trained an 'H' for example, the net output would be an 'H', but the net output is actually the stable state that the 'H' was trained to. Why this is a bit disappointing is because you have to directly reference the trained states to pull out an input.
+Hopfield nets are incredibly interesting as they illustrate a recursive feeding network, that is, its output feeds back into its inputs. I think the saved, incrementally changing states of the net might be a perfect model for biological memory.
+   Possible parameters for Hopfields:
+      * 
 I wonder if recurrent systems have been observed in the brain, and if this recurrence is what allows for memory recall.
 http://www.scholarpedia.org/article/Hopfield_network
 http://www.cs.toronto.edu/~mackay/itprnn/ps/506.522.pdf

@@ -18,7 +18,7 @@
 
          */
          //grid declaration
-         var unitWidth = 10;
+         var unitWidth = 30;
          var gridSize = 10;
          var startX = 1;
          var startY = 1;
@@ -32,15 +32,15 @@
          fillMatrix(grid2, unitWidth, startX, startY);
          //canvases code
          var canvas = document.createElement('canvas');
-         canvas.height = 200;
-         canvas.width = 200;
+         canvas.height = 500;
+         canvas.width = 500;
          canvas.id = 'canvas1';
          document.body.appendChild(canvas);
          context = canvas.getContext('2d');
          //canvas 2
          var canvas2 = document.createElement('canvas');
-         canvas2.height = 200;
-         canvas2.width = 200;
+         canvas2.height = 500;
+         canvas2.width = 500;
          canvas2.id = 'canvas2'
          document.body.appendChild(canvas2);
          context2 = canvas2.getContext('2d');

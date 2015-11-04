@@ -2,6 +2,14 @@ import numpy as np
 import random
 import pdb
 
+""""
+NOTE:
+    The random weight initialization makes classification accuracy extremely
+    volatile!
+
+
+"""
+
 def bin(input):
     if input >= 0:
         return 1
@@ -17,21 +25,21 @@ class Hopfield(object):
         self.weights = np.matrix(self.current_states).transpose() * np.matrix(self.current_states)
         np.fill_diagonal(self.weights, 0)
         self.new_states = np.zeros(self.num_nodes)
-        self.rate = 1
+        self.rate = .01
         self.targets = targets
         self.remembered = []
 
-    def train(self, target, max_iterations = 1000):
+    def train(self, target, max_iterations = 10000):
         iterations = 0
         self.current_states = np.copy(target)
         while iterations < max_iterations:
             iterations += 1
             self.async_update() #updates the new_states
-            if self.is_stable():
+            if np.array_equal(self.new_states, target):
+                #if output = the target
                 return
             self.current_states = np.copy(self.new_states)
             self.update_weights()
-        self.remembered.append((self.current_states, target))
 
     def add_target(self, target): #used for server training
         if (target.size != self.num_nodes):
@@ -102,6 +110,7 @@ class Hopfield(object):
         for i in range(max_iterations):
             self.async_update()
             self.current_states = np.copy(self.new_states)
+        #how to fix the flipped bit problem?
         return self.current_states
     def print_states(self):
         print 'current states ', self.current_states
@@ -120,8 +129,8 @@ a = np.asarray(a)
 b = np.asarray(b)
 test1 = np.asarray([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
 test2 = np.asarray([-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1])
-test3 = np.asarray([1,1,1,1,1,1,1,-1,-1,-1,-1,-1,-1,-1,-1])
-test4 = np.asarray([-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1])
+test3 = np.asarray([1,1,1,1,1,1,1,1,1,1,1,-1,-1,-1,-1])
+test4 = np.asarray([1,1,-1,-1,-1,-1,-1,-1,-1,-1,1,1,1,1,1])
 def main():
     hop = Hopfield(15,[a,b])
     hop.max_patterns()
