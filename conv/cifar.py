@@ -20,8 +20,7 @@ from nolearn.lasagne import visualize
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 
-
-def get_cifar(file):
+def unpickle(file):
     """
     data -- a 10000x3072 numpy array of uint8s. Each row of the array stores a 32x32 colour image.
     32 * 32 = 1024
@@ -30,7 +29,8 @@ def get_cifar(file):
     The first 1024 entries contain the red channel values, the next 1024 the green, and the final 1024 the blue.
      The image is stored in row-major order, so that the first 32 entries of the array are the red channel
      values of the first row of the image.
-     
+     [1024, 1024, 1024]
+
     labels -- a list of 10000 numbers in the range 0-9. The number at index i indicates the
     label of the ith image in the array data.
 
@@ -38,55 +38,43 @@ def get_cifar(file):
     X_train = np.reshape((-1,1,28,28)) -> all the values
     """
     fo = open(file, 'rb')
-    dict = cPickle.load(fo)
+    dict = pickle.load(fo)
     fo.close()
     return dict
 
-def squash(input1,input2,input3):
-    #add the uints, divide the uints
-    for idx, i in input1:
-        input1[idx] = (i + input2[idx] + input3[idx])/3 #average of channels
-    return input1
+def format_grey(raw_data): #returns greyscale image
+    #input = 3072 length ndarray
+    red = dat[0:1024]
+    green = dat[1024: 2048]
+    blue = dat[2048: 3072]
+    red = red.astype(float)
+    green = green.astype(float)
+    blue = blue.astype(float)
+    for i in range(1024):
+        red[i] = ((red[i] + blue[i] + green[i])/3)/255
+        #red holds all the channels
+    return red.astype(np.uint8)
+
+def greyscale(cifar):
+    grey = np.zeros(10000)
+    for idx,x in enumerate(cifar['data']):
+        grey[idx] = format_grey(x)
+    return grey
+
+def get_cifar(path): #returns (input, output), greyscaled
+    cifar = unpickle(path)
+    grey = greyscale(cifar)
+    input = grey.reshape((-1,1,32,32))
+    output = np.asarray(cifar['labels']).astype(np.uint8)
+    return (input, output)
 
 
-def get_labels(file):
-    """
-    label_names -- a 10-element list which gives meaningful names to the numeric labels in
-    the labels array described above. For example, label_names[0] == "airplane", label_names[1] ==
-    "automobile", etc.
-    """
-    fo = open(file, 'rb')
-    dict = cPickle.load(fo)
-    fo.close()
-    return dict
+def format_multi(dat): #multiple channel data
+    return dat.reshape((-1,1,32,32))
 
-def format_input_multi(cifar_dict): #format to put through nolearn net
-    """
-    Output = 3, 32 * 32 arrays for each image
-    """
-    X_train = np.zeros(10000)
-    Y_train = np.zeros(10000)
-    for key in cifar_dict:
-        X_train[key] = cifar_dict[key].reshape((-1,1,32,32))
+x_train, y_train = get_cifar()
+x_test, y_test = get_cifar()
 
-def format_input_single(cifar_dict):
-    """
-    Output = 1 32 * 32 single channel array
-    """
-    #how to compress values together
-    X_train = np.zeros(10000)
-    Y_train = np.zeros(10000)
-    X_test = np.zeros()
-    Y_test = np.zeros()
-    for key in cifar_dict:
-        image = cifar_dict[key]
-        X_train[key] = squash(image[0:1024], image[1024:2048], image[2048:3072]).reshape((32,32))
-    return (X_train, y_train, x_test, y_test)
-
-
-#load up the data
-cifar_dict = load("./cifar")
-x_Train, y_train, x_test, y_test = format_input_single(cifar_dict)
 
 single_channel_net = NeuralNet(
     layers=[('input', layers.InputLayer),
@@ -133,4 +121,4 @@ single_channel_net = NeuralNet(
     )
 
 # Train the network
-nn = single_channel_net.fit(X_train, y_train)
+nn = single_channel_net.fit(x_train, y_train)
