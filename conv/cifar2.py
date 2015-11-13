@@ -20,8 +20,6 @@ from nolearn.lasagne import visualize
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 
-%matplotlib inline
-
 def unpickle(file):
     """
     data -- a 10000x3072 numpy array of uint8s. Each row of the array stores a 32x32 colour image.
@@ -93,7 +91,7 @@ single_channel_net = NeuralNet(
             ('output', layers.DenseLayer),
             ],
     # input layer
-    input_shape=(None, 1, 32, 32),
+    input_shape=(None, 3, 32, 32),
     # layer conv2d1
     conv2d1_num_filters=32, #32 filters da fuq
     conv2d1_filter_size=(5, 5),

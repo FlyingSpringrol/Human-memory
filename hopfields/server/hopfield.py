@@ -4,9 +4,8 @@ import pdb
 
 """"
 NOTE:
-    The random weight initialization makes classification accuracy extremely
-    volatile!
-
+    Still doesn't work: need a procedure to determine if system is stable under asynchrnous updates
+    Have a list of stable states?
 
 """
 
@@ -25,19 +24,22 @@ class Hopfield(object):
         self.weights = np.matrix(self.current_states).transpose() * np.matrix(self.current_states)
         np.fill_diagonal(self.weights, 0)
         self.new_states = np.zeros(self.num_nodes)
-        self.rate = .01
+        self.rate = .1
         self.targets = targets
         self.remembered = []
 
-    def train(self, target, max_iterations = 10000):
+    def train(self, target, max_iterations = 1000):
+        print 'training'
         iterations = 0
         self.current_states = np.copy(target)
         while iterations < max_iterations:
             iterations += 1
             self.async_update() #updates the new_states
-            if np.array_equal(self.new_states, target):
+            """if np.array_equal(self.new_states, target):
                 #if output = the target
+                print 'trained'
                 return
+            """
             self.current_states = np.copy(self.new_states)
             self.update_weights()
 
@@ -50,7 +52,7 @@ class Hopfield(object):
             self.reset()
         self.targets.append(target)
         self.train(target)
-        print len(self.targets)
+        print 'amount of trained targets ',len(self.targets)
     def reset(self):
         print 'reset net'
         self.targets = []

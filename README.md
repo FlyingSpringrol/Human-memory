@@ -13,6 +13,8 @@ Projects are implemented in Javascript and Python.
 Theory:
 Most models of human memory involve categorization and classification, and the equations that achieve this simple traverse an error or fitness surface to find the respective max and min.
 
+#####Running all the JS files:
+Basically just download the git repo, and run the respective index.html files.
 
 WIP(s):
 ###1) Self organizing map/ Kohonen net (implemented in Javascript):
@@ -31,8 +33,8 @@ Just writing this one down... Not sure how this idea is connected to any of thes
 Buggy! Still occasionally converges to a single/two possible patterns.Which is just not right.  
 How to run:
    Dependencies:  
-   1.Flask
-   2.Numpy
+   * Flask
+   * Numpy
 Download, move to server directory, and run the command 'python hopfield.py'.  
 Next, open http://127.0.0.1:5000/  
 Next feel free to train and run all the mofocking patterns you want.  
@@ -41,7 +43,10 @@ Theory behind Hopfield Nets:
 Minimization of an energy function to create content-adressable memory.
 Hopfield nets are incredibly interesting as they illustrate a recursive feeding network, that is, its output feeds back into its inputs. I think the saved, incrementally changing states of the net might be a perfect model for biological memory.
    Possible parameters for Hopfields:
-      * 
+      * Initialization
+      * size
+      * learning rate
+
 I wonder if recurrent systems have been observed in the brain, and if this recurrence is what allows for memory recall.
 http://www.scholarpedia.org/article/Hopfield_network
 http://www.cs.toronto.edu/~mackay/itprnn/ps/506.522.pdf
@@ -63,24 +68,46 @@ Project idea:
 Webcrawl some sites to obtain current residential candidates speeches and run it through the markov model. It would be cool to see how the output differs in regard to rhetoric and topics.
 
 ###5) Deep Belief Networks:
-Generative models:
+Haven't implemented this yet.
+Generative models
 Probabilistic inference networks: infer the relationship between the hidden units that could creates the visible effect.  
 
 Related Concepts:
- :*RBMS (restricted boltzmann machines)
- *Sigmoid Belief Networks
- *Bayesian Networks
- *Autoencoders
+ * RBMS (restricted boltzmann machines)
+ * Sigmoid Belief Networks
+ * Bayesian Networks
+ * Autoencoders
 
-
-deeplearning.net/tutorial/DBN.html
+https://deeplearning.net/tutorial/DBN.html
 https://www.youtube.com/watch?v=vkb6AWYXZ5I
 https://www.cs.toronto.edu/~hinton/nipstutorial/nipstut3.pdf
 
-###6) Other shit to learn:
-     Convolutional networks
-     Auto-encoder, (standard, variational)
-     Recurrent neural nets
+
+####6)Other shit to learn
+   Auto-encoder, (standard, variational), Recurrent neural nets, convolutional nets, RCNNs, Sparse distributed Representations.
+
+####Considerations in creating a biologically accurate neural system:
+Basically, the question is how do you create models and applicable learning rules that are constrained in the same ways as biological neurons, that can still compute information.
+Tis a mystery.
+But here are some constraints. (And I'm sure we'll find more constraints the better biological imaging and activity reading technology gets)
+
+   * Spiking
+   * Different neurotransmitters corresponding to neuron types
+   * Dales law
+   * Sparse coding
+   * Refractory periods (Leaky integrate and fire)
+   * Connectome structures: biological make up of the brain (backwards feeding, layers, ect.)
+   * Synaptic modification
+   * Limited connectivity/receptive fields
+
+How we can cheat to find our answers:
+   * Look at neuron differentiation during development, see what does what
+   * Repeating structures? (Other organ systems do it, does the brain as well?)
+   * Raphe nucleas, islets of langerhans? Small isolated systems that perform important functions
+   * Connectome (all the connections between brain regions), Dynome (The way they interact)
+   * Larger scale recordings of neurons
+   * Existence of a universal code/learning rule
+
 
 ###Links to models of biological systems:
 
