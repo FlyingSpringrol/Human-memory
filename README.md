@@ -16,13 +16,14 @@ Most models of human memory involve categorization and classification, and the e
 #####Running all the JS files:
 Basically just download the git repo, and run the respective index.html files.
 
-WIP(s):
+
 ###1) Self organizing map/ Kohonen net (implemented in Javascript):
 
 I would like to explore how neurons could exhibit this kind of activity with
 biological constraints. For example, the kohonen net is based on comparative
 error, and I'm not sure if neurons would ever be able to do such precise
 calculations by only summing dendrite inputs.
+I wonder if it would be possible to create a robust classifier using SDR's.
 
 Basically a SOM works by creating a field of several different classification populations through competive training. (Note: by populations I mean blobs of similar weight vectors). They're very interesting, and I'm going to try to think of ways in which you could chain a bunch of SOM's and feature extractors together to compute a complex classification problem.
 I've read in several places that these are the "ideal model for human memory", but I seriously doubt these nets are the entire story. They might be a PART of human memory, but I think the remarkable type diversity of memory circuits in the brain will surprise us. These nets at best probably just loosely model the classification and categorization modules of our minds.
@@ -82,9 +83,19 @@ https://deeplearning.net/tutorial/DBN.html
 https://www.youtube.com/watch?v=vkb6AWYXZ5I
 https://www.cs.toronto.edu/~hinton/nipstutorial/nipstut3.pdf
 
+###6) Convolutional Nets:
+I use nolearn (built with lasagne and theano) and Caffe (bvlc vision).
 
-####6)Other shit to learn
-   Auto-encoder, (standard, variational), Recurrent neural nets, convolutional nets, RCNNs, Sparse distributed Representations.
+There are scripts for nolearn networks and ipython notebooks for Caffe.
+
+
+
+####7)Other shit to learn
+   Auto-encoder, (standard, variational), Recurrent neural nets, Recurrent-CNNs, Sparse distributed Representations, Deep-belief nets, Hopfield nets,
+
+   Projects:
+      * Cifar-10
+      * Deep-art, style and content mixing
 
 ####Considerations in creating a biologically accurate neural system:
 Basically, the question is how do you create models and applicable learning rules that are constrained in the same ways as biological neurons, that can still compute information.
@@ -97,8 +108,11 @@ But here are some constraints. (And I'm sure we'll find more constraints the bet
    * Sparse coding
    * Refractory periods (Leaky integrate and fire)
    * Connectome structures: biological make up of the brain (backwards feeding, layers, ect.)
-   * Synaptic modification
+   * Synaptic modification (Neuronal activity shapes circuits by strengthening synapses, stabilizing dendritic spines, and stimulating dendritic growth and branching. These effects are mediated through increases in intracellular calcium levels, activation of kinases, and downstream changes in gene transcription.)
+   * LTP, LTD, Spike-timing dependent plasticity.
    * Limited connectivity/receptive fields
+   * Neuron structures and types
+
 
 How we can cheat to find our answers:
    * Look at neuron differentiation during development, see what does what
@@ -106,7 +120,7 @@ How we can cheat to find our answers:
    * Raphe nucleas, islets of langerhans? Small isolated systems that perform important functions
    * Connectome (all the connections between brain regions), Dynome (The way they interact)
    * Larger scale recordings of neurons
-   * Existence of a universal code/learning rule
+   * Find proof of the existence of a universal code/learning rule? If there was one, it would simplify the problem of discovering the computational rules of each brain region.
 
 
 ###Links to models of biological systems:
