@@ -31,7 +31,7 @@ I've read in several places that these are the "ideal model for human memory", b
 Just writing this one down... Not sure how this idea is connected to any of these ideas but are a bunch of simple graded "yes/no" responses enough to  match the accuracy of a single backpropagated ideal solution?
 
 ###2) Hopfield net:
-Buggy! Still occasionally converges to a single/two possible patterns.Which is just not right.  
+Buggy! Still occasionally converges to a single/two possible patterns. Which is just not right.  
 How to run:
    Dependencies:  
    * Flask
@@ -48,10 +48,10 @@ Hopfield nets are incredibly interesting as they illustrate a recursive feeding 
       * size
       * learning rate
 
-I wonder if recurrent systems have been observed in the brain, and if this recurrence is what allows for memory recall.
-http://www.scholarpedia.org/article/Hopfield_network
-http://www.cs.toronto.edu/~mackay/itprnn/ps/506.522.pdf
-https://www.youtube.com/watch?v=gfPUWwBkXZY
+Recurrent Systems:
+* http://www.scholarpedia.org/article/Hopfield_network
+* http://www.cs.toronto.edu/~mackay/itprnn/ps/506.522.pdf
+* https://www.youtube.com/watch?v=gfPUWwBkXZY
 
 ###3)Python Neural net:
 Object oriented approach to implementing a neural net. (Python)
@@ -88,6 +88,10 @@ I use nolearn (built with lasagne and theano) and Caffe (bvlc vision).
 
 There are scripts for nolearn networks and ipython notebooks for Caffe.
 
+"Style project": Is based on this paper. 
+* http://arxiv.org/pdf/1508.06576v2.pdf
+
+
 
 
 ####7)Other shit to learn
@@ -116,10 +120,10 @@ But here are some constraints. (And I'm sure we'll find more constraints the bet
 
 How we can cheat to find our answers:
    * Look at neuron differentiation during development, see what does what
-   * Repeating structures? (Other organ systems do it, does the brain as well?)
+   * Repeating structures in brain? Is the brain broken up into functional units? (Other organ systems do it, does the brain as well?)
    * Raphe nucleas, islets of langerhans? Small isolated systems that perform important functions
    * Connectome (all the connections between brain regions), Dynome (The way they interact)
-   * Larger scale recordings of neurons
+   * Larger scale recordings of ensembles of neurons (There's nothing like observation when it comes to creating behavioral rules)
    * Find proof of the existence of a universal code/learning rule? If there was one, it would simplify the problem of discovering the computational rules of each brain region.
 
 
