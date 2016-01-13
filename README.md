@@ -88,7 +88,7 @@ I use nolearn (built with lasagne and theano) and Caffe (bvlc vision).
 
 There are scripts for nolearn networks and ipython notebooks for Caffe.
 
-"Style project": Is based on this paper. 
+"Style project": Is based on this paper.
 * http://arxiv.org/pdf/1508.06576v2.pdf
 
 
@@ -102,13 +102,13 @@ There are scripts for nolearn networks and ipython notebooks for Caffe.
       * Deep-art, style and content mixing
 
 ####Considerations in creating a biologically accurate neural system:
-Basically, the question is how do you create models and applicable learning rules that are constrained in the same ways as biological neurons, that can still compute information.
+Basically, the question is how do you create models with learning rules and units that are constrained in the same ways as biological neurons, that can still compute information.
 Tis a mystery.
 But here are some constraints. (And I'm sure we'll find more constraints the better biological imaging and activity reading technology gets)
 
    * Spiking
    * Different neurotransmitters corresponding to neuron types
-   * Dales law
+   * Dales law (Ratio of inhibitory to excitatory cells [20/80])
    * Sparse coding
    * Refractory periods (Leaky integrate and fire)
    * Connectome structures: biological make up of the brain (backwards feeding, layers, ect.)
@@ -116,6 +116,7 @@ But here are some constraints. (And I'm sure we'll find more constraints the bet
    * LTP, LTD, Spike-timing dependent plasticity.
    * Limited connectivity/receptive fields
    * Neuron structures and types
+   * Local Learning rules vs larger scale fine-tuning learning (check machine learning vs reasoning)
 
 
 How we can cheat to find our answers:
@@ -125,12 +126,16 @@ How we can cheat to find our answers:
    * Connectome (all the connections between brain regions), Dynome (The way they interact)
    * Larger scale recordings of ensembles of neurons (There's nothing like observation when it comes to creating behavioral rules)
    * Find proof of the existence of a universal code/learning rule? If there was one, it would simplify the problem of discovering the computational rules of each brain region.
+   * Analyze species with simpler brains, (some rules we would find MUST be conserved over the course of evolution)
 
 
 ###Links to models of biological systems:
 
 MIT initial object recognition in the visual cortex: (full model and implementation details)
 http://cbcl.mit.edu/projects/cbcl/publications/ai-publications/2005/AIM-2005-036.pdf
+
+Machine Learning vs Machine reasoning:
+http://research.microsoft.com/pubs/192773/tr-2011-02-08.pdf
 
 MIT Texture + object recognition:
 http://cbcl.mit.edu/cbcl/publications/ps/unifiedC2.pdf
