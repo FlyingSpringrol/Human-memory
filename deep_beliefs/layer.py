@@ -1,16 +1,14 @@
 import numpy as np
 from numpy import random as rand
-import sys
 
 
 def sigmoid(x):
-    return 1.0/(1+ np.power(np.e, -x))
-sigmoid = np.vectorize(sigmoid)
+    return 1/(1+ np.power(np.e, -x))
 
 def bin(state):
     if rand.random() < state:
-        return 1.0
-    else: return 0.0
+        return 1
+    else: return 0
 
 vec_bin = np.vectorize(bin)
 
@@ -21,47 +19,39 @@ class Layer():
 
     """
     def __init__(self, visibles, hiddens, learning_rate = 0):
-        self.weights = [rand.randn(visibles) for h in xrange(hiddens)] #weights = inputs to hiddens
-        self.vis_biases = rand.randn(visibles) #weights for bias to visuals
-        self.hid_biases = np.zeros(hiddens) #weights for bias to hiddens
-
-        self.vis_states = np.zeros(visibles) #container for current states
-        self.hid_states = np.zeros(hiddens) #container for current states
+        self.weights = [rand.randn(visibles+ 1) for h in xrange(hiddens + 1)] #weights = inputs to hiddens
+        self.vis_states = np.zeros(visibles)
+        self.hid_states = np.zeros(hiddens)
         #learning rate assignment
-        if learning_rate== 0:
+        if learning_rate == 0:
             self.learning_rate = visibles * hiddens * .001
         else: self.learning_rate = learning_rate
-        #number of visibles and hiddens
-        self.visibles = visibles
-        self.hiddens = hiddens
+
+        self.num_vis = visibles
+        self.num_hid = hiddens
 
     def train(self,inputs):
         '''
         Contrastive divergence algorithm
         '''
         #step 1
-        self.construct(inputs, False)
+        self.construct(inputs)
         v = np.copy(self.vis_states)
         h = np.copy(self.hid_states)
         #step 2
-        self.reconstruct(h, False)
-        self.construct(self.vis_states, False)
+        self.reconstruct(h)
+        self.construct(self.vis_states)
         v_p = self.vis_states
         h_p = self.hid_states
-        #insert the bias activations into the activation vectors
-        v = np.insert(v, 0, 1.0)
-        h = np.insert(h, 0, 1.0)
-        v_p = np.insert(v_p, 0, 1.0)
-        h_p = np.insert(h_p, 0, 1.0)
-        '''print v,h
-        print v_p,h_p'''
-        #get gradients
-        changes = (np.outer(h, v) - np.outer(h_p, v_p))
-        #get MSE
-        err = np.sum(changes)**2
-        ax1 = changes[:,0][1:].flatten() #get pad column
-        ax2 = changes[:1].flatten()[1:] #get pad row
-        #remove bias padding
+        #have to add in the biases, hack for now
+        v = np.insert(v, 0, 1)
+        h = np.insert(h, 0, 1)
+        v_p = np.insert(v_p, 0, 1)
+        h_p = np.insert(h_p, 0, 1)
+        #get changes
+        changes = (np.outer(h,v) - np.outer(h_p, v_p))
+        ax1 = changes[:,0][1:].flatten()
+        ax2 = changes[:1].flatten()[1:]
         changes = np.delete(changes, 0, axis = 0)
         changes = np.delete(changes, 0, axis = 1)
 
@@ -69,15 +59,12 @@ class Layer():
         self.vis_biases += self.learning_rate * ax2
         self.weights += self.learning_rate * changes
 
-        return err
-
     def construct(self, vis, prob = False):
         '''
         Construct hidden states from visibles
         '''
         #calculate activations
-        self.vis_states = np.copy(vis) #set visibles
-        self.hid_states[:] = 0
+        self.vis_states = vis #set visibles
         for i in xrange(self.hiddens):
             for j in xrange(self.visibles):
                 self.hid_states[i] +=  self.weights[i][j] * self.vis_states[j]
@@ -92,15 +79,15 @@ class Layer():
         '''
         reconstruct visible states from hiddens
         '''
-        self.hid_states = np.copy(hiddens) #set visibles
-        self.vis_states[:] = 0
+        self.hid_states = hiddens #set visibles
         for i in xrange(self.hiddens):
             for j in xrange(self.visibles):
                 self.vis_states[j] +=  self.weights[i][j] * self.hid_states[i]
         #add biases
-        for i in xrange(self.visibles):
+        for i in xrange(self.hiddens):
             self.vis_states[i] += self.vis_biases[i]
             self.vis_states[i] = sigmoid(self.vis_states[i])
+
         if prob:
             self.vis_states = vec_bin(self.vis_states)
 
@@ -110,30 +97,23 @@ class Layer():
     def p_weights(self):
         print 'Weights', self.weights
         print 'Vis_biases', self.vis_biases
-        print 'Hid_biases', self.hid_biases
+        print 'hid_biases', self.hid_biases
 
 key_vis = ["Theory of General Relativity", "Tobacco", "Drinking Heavily", "Molly", "Leo Tolstoy", "Higher Education"]
 key_hid = ["Smart", "Not Smart"]
-data = {"data0": [1, 0, 0, 0, 1, 1], "data1": [1, 0, 0, 0, 1, 1], "data2": [0, 0, 1, 1, 1, 0], "data3": [0, 1, 1, 1, 0, 0], "data4": [1, 1, 0, 0, 1, 1]}
+data = {"data0": [1, 0, 0, 0, 1, 1], "data1": [1, 0, 0, 0, 1, 1], "data2": [0, 0, 1, 1, 1, 0], "data3": [0, 1, 1, 1, 1, 0], "data4": [1, 1, 0, 0, 1, 1]}
 
-def test(x):
+def test():
     layer = Layer(6, 2)
-    layer.reconstruct([1,0], True)
-    layer.test()
-    for j in range(x):
+    for j in range(1000):
         for i in xrange(5):
             keyed = data["data" + str(i)]
-            err = layer.train(keyed)
-            print err
+            layer.train(keyed)
     layer.reconstruct([1,0], True)
+    layer.test()
+    layer.reconstruct([0,1], True)
     layer.test()
     layer.construct([1, 0, 0, 0, 1, 1], True)
     layer.test()
     layer.p_weights()
-    return layer
-
-x = 1
-for arg in sys.argv[1:]:
-    if (arg):
-        x = int(arg)
-layer = test(x)
+test()

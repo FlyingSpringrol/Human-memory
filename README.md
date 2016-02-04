@@ -31,22 +31,17 @@ I've read in several places that these are the "ideal model for human memory", b
 Just writing this one down... Not sure how this idea is connected to any of these ideas but are a bunch of simple graded "yes/no" responses enough to  match the accuracy of a single backpropagated ideal solution?
 
 ###2) Hopfield net:
-Buggy! Still occasionally converges to a single/two possible patterns. Which is just not right.  
-How to run:
+Buggy! I wrote it under the assumption that online training was possible: which I now see is simply not true. So I'm a bit disappointed in the hopfield net as a model for neural function. It does illustrate how local connectivity and correlation would allow for biologically feasible pattern matching, which I guess is something. Hop.py should work if you run it like a standard python program, although not necessarily beautifully.
+To run the hopfield server (JS client, and python Flask backend):  
    Dependencies:  
    * Flask
    * Numpy
 Download, move to server directory, and run the command 'python hopfield.py'.  
 Next, open http://127.0.0.1:5000/  
-Next feel free to train and run all the mofocking patterns you want.  
+Next feel free to train and run all the mofocking patterns you want. (Although warning, most of them will not work. Yay!)
 
 Theory behind Hopfield Nets:
-Minimization of an energy function to create content-adressable memory.
-Hopfield nets are incredibly interesting as they illustrate a recursive feeding network, that is, its output feeds back into its inputs. I think the saved, incrementally changing states of the net might be a perfect model for biological memory.
-   Possible parameters for Hopfields:
-      * Initialization
-      * size
-      * learning rate
+Minimization of an energy function through activity-correlation to create content-adressable memory.
 
 Recurrent Systems:
 * http://www.scholarpedia.org/article/Hopfield_network
@@ -57,23 +52,14 @@ Recurrent Systems:
 Object oriented approach to implementing a neural net. (Python)
 Shit is slooooow.
 
-###4) Markov Chains:
 
-While not immediately relevant to connected and synchronized systems, markov models are easy to implement, and demonstrate the power of MEMORY, that is, using past experiences for computing future possibilities.
-
-These generate text based on the book you feed it. You could potentially feed it information from any text source and it would generate a unique output. If I have time I'd love to add some features that would make the outputs more accurate/ comprehensible.
-1)Dual-directional reading?
-2)Part of speech identifier?
-
-Project idea:
-Webcrawl some sites to obtain current residential candidates speeches and run it through the markov model. It would be cool to see how the output differs in regard to rhetoric and topics.
-
-###5) Deep Belief Networks:
+###4) Deep Belief Networks:
 Haven't implemented this yet.
 Generative models
 Probabilistic inference networks: infer the relationship between the hidden units that could creates the visible effect.  
 
 Related Concepts:
+
  * RBMS (restricted boltzmann machines)
  * Sigmoid Belief Networks
  * Bayesian Networks
@@ -83,7 +69,7 @@ https://deeplearning.net/tutorial/DBN.html
 https://www.youtube.com/watch?v=vkb6AWYXZ5I
 https://www.cs.toronto.edu/~hinton/nipstutorial/nipstut3.pdf
 
-###6) Convolutional Nets:
+###5) Convolutional Nets:
 I use nolearn (built with lasagne and theano) and Caffe (bvlc vision).
 
 There are scripts for nolearn networks and ipython notebooks for Caffe.
@@ -92,16 +78,14 @@ There are scripts for nolearn networks and ipython notebooks for Caffe.
 * http://arxiv.org/pdf/1508.06576v2.pdf
 
 
-
-
-####7)Other shit to learn
-   Auto-encoder, (standard, variational), Recurrent neural nets, Recurrent-CNNs, Sparse distributed Representations, Deep-belief nets, Hopfield nets,
+####7) Other shit to learn:
+   Auto-encoder, (standard, variational), Recurrent neural nets, Recurrent-CNNs, Sparse distributed Representations, Deep-belief nets, Hopfield nets.
 
    Projects:
-      * Cifar-10
-      * Deep-art, style and content mixing
+   * Cifar-10
+   * Deep-art, style and content mixing
 
-####Considerations in creating a biologically accurate neural system:
+#### Considerations in creating a biologically accurate neural system:
 Basically, the question is how do you create models with learning rules and units that are constrained in the same ways as biological neurons, that can still compute information.
 Tis a mystery.
 But here are some constraints. (And I'm sure we'll find more constraints the better biological imaging and activity reading technology gets)
