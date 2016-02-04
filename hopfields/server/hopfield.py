@@ -10,21 +10,21 @@ NOTE:
 """
 
 def bin(input):
-    if input >= 0:
+    if input > 0:
         return 1
     else:
         return -1
 vec_bin = np.vectorize(bin)
 
 class Hopfield(object):
-    def __init__(self, nodes, targets):
+    def __init__(self, nodes, targets, learning_rate = .001):
         self.num_nodes = nodes
         self.targets = targets
         self.current_states = vec_bin(np.random.uniform(-1,1, self.num_nodes))
         self.weights = np.matrix(self.current_states).transpose() * np.matrix(self.current_states)
         np.fill_diagonal(self.weights, 0)
         self.new_states = np.zeros(self.num_nodes)
-        self.rate = .1
+        self.rate = learning_rate
         self.targets = targets
         self.remembered = []
 
@@ -35,13 +35,17 @@ class Hopfield(object):
         while iterations < max_iterations:
             iterations += 1
             self.async_update() #updates the new_states
-            """if np.array_equal(self.new_states, target):
+            if np.array_equal(self.new_states, target):
                 #if output = the target
                 print 'trained'
                 return
-            """
             self.current_states = np.copy(self.new_states)
             self.update_weights()
+    def static_update(self, targets):
+        '''
+        Used if not online learning...
+        '''
+        
 
     def add_target(self, target): #used for server training
         if (target.size != self.num_nodes):
@@ -126,7 +130,7 @@ class Hopfield(object):
 
 #testing stuff
 a = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-b = [1,1,1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+b = [-1,-1,1,1,1,1,1,1,-1,-1,-1,-1,-1,-1,-1]
 a = np.asarray(a)
 b = np.asarray(b)
 test1 = np.asarray([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1])
