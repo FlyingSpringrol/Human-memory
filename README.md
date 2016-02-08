@@ -53,8 +53,13 @@ Object oriented approach to implementing a neural net. (Python)
 Shit is slooooow.
 
 
-###4) Deep Belief Networks:
-Haven't implemented this yet.
+###4) Deep Belief Networks: Stacked RBMS
+Includes the RBM:
+Most of the credit for this code goes to Edwin Chen,
+https://github.com/echen/restricted-boltzmann-machines
+Where I took a sizeable amount of the training code from.
+
+
 Generative models
 Probabilistic inference networks: infer the relationship between the hidden units that could creates the visible effect.  
 

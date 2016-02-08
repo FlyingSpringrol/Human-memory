@@ -58,6 +58,7 @@ class Hopfield(object):
             for node in update_list:
                 new_state = self.async_update(node, pattern)
                 if new_state != self.states[node]:
+                    print 'change'
                     changed = True
                 self.states[node] = new_state
             if not changed:
@@ -73,11 +74,14 @@ class Hopfield(object):
 
 def test():
     #returning inverses? Why?
-    a = [1,1,-1,-1,1]
+    a = [1,-1,-1,-1,1]
     b = [-1,-1,-1,-1,-1]
-    d = [1,1,1,1,-1]
+    d = [1,1,-1,-1,1]
+    e = [-1,-1,-1,1,-1]
     hop = Hopfield([a,b])
-    c = hop.run(d)
+    c = hop.run(e)
+    f = hop.run(d)
     print c
+    print f
     print hop.weights
 test()
