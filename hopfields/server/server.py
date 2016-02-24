@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify, Response, send_file #annoying you have to import these files
 import sys
-from hopfield import *
+from hop import *
 import numpy as np
 import json
 import os
@@ -18,7 +18,8 @@ Request objects, context object
 """
 app = Flask(__name__)
 test = {'a': 1, 'b':2}
-hop = Hopfield(100, []) #need to figure out a way to add new inputs to net
+hop = Hopfield(num_nodes = 100, targets = []) #need to figure out a way to add new inputs to net
+inputs = []
 
 def serialize_hop(hop_output): #return as a matrix of states
     answer = dict()
@@ -39,19 +40,21 @@ def translate_bools(input):
         return 1
     else: return -1
 
-def train_hop(input_array):
-    target = np.asarray(input_array)
-    hop.add_target(target)
+def train_hop(inputs):
+    hop.reset_hop()
+    hop.hebb_train(inputs)
 
 def run_hop(input_array):
-    input = np.asarray(input_array)
-    result = hop.test(input, 1) #bad values, just introduced, might ruin this
-    return result
+    inputs = np.asarray(input_array)
+    result = hop.run(inputs) #bad values, just introduced, might ruin this
+    return result[1] #return the array
+
 def translate(nump_array):
     arr = np.ndarray.tolist(nump_array)
     return json.dumps(arr)
+
 def reset_hop():
-    hop.reset()
+    hop.reset_hop()
 
 @app.route('/')
 def sendFiles():
@@ -61,7 +64,8 @@ def sendFiles():
 def post_response(): #runs all methods under route code?
     if request.method == 'POST':
         read = read_input_json(request.data) #converts to array
-        train_hop(read)
+        inputs.append(read)
+        train_hop(inputs)
         return 'Hop trained'
     else:
         return 'request not read'
@@ -69,7 +73,7 @@ def post_response(): #runs all methods under route code?
 def reset():
 
     if request.method == 'GET':
-        reset_hop()
+        hop.reset_states()
         return 'Hopfield Reset'
     else:
         return 'request not read'
