@@ -8,6 +8,7 @@ TODO:
 -visualize error over time
 -Figure out non-fixed bias problem
 -Softmax output layer
+-Add minibatches to this shit
 '''
 def softmax(inputs, target):
     output = 0

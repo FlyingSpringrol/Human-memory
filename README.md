@@ -31,14 +31,14 @@ I've read in several places that these are the "ideal model for human memory", b
 Just writing this one down... Not sure how this idea is connected to any of these ideas but are a bunch of simple graded "yes/no" responses enough to  match the accuracy of a single backpropagated ideal solution?
 
 ###2) Hopfield net:
-Buggy! I wrote it under the assumption that online training was possible: which I now see is simply not true. So I'm a bit disappointed in the hopfield net as a model for neural function. It does illustrate how local connectivity and correlation would allow for biologically feasible pattern matching, which I guess is something. Hop.py should work if you run it like a standard python program, although not necessarily beautifully.
+Bug's fixed! I wrote the original net under the assumption that online training was possible: which I now see is simply not true. So I'm a bit disappointed in the hopfield net as a model for neural function. It does illustrate how local connectivity and correlation would allow for biologically feasible pattern matching, which I guess is something. Hop.py should work if you run it like a standard python program, although not necessarily beautifully.
 To run the hopfield server (JS client, and python Flask backend):  
    Dependencies:  
    * Flask
    * Numpy
-Download, move to server directory, and run the command 'python hopfield.py'.  
+Download, move to server directory, and run the command 'python server.py'.  
 Next, open http://127.0.0.1:5000/  
-Next feel free to train and run all the mofocking patterns you want. (Although warning, most of them will not work. Yay!)
+Next feel free to train and run all the mofocking patterns you want.
 
 Theory behind Hopfield Nets:
 Minimization of an energy function through activity-correlation to create content-adressable memory.
@@ -75,6 +75,12 @@ https://www.youtube.com/watch?v=vkb6AWYXZ5I
 https://www.cs.toronto.edu/~hinton/nipstutorial/nipstut3.pdf
 
 ###5) Convolutional Nets:
+
+A folder full of broken shit! What's more to love.
+
+Convolutional nets are crazy: they're closest thing we've gotten to a general solution for complex problems. Still, they're difficult to understand, slow to train, and aren't even close to perfect.
+I'll keep developing this folder over the next couple years and see where it goes. 
+
 I use nolearn (built with lasagne and theano) and Caffe (bvlc vision).
 
 There are scripts for nolearn networks and ipython notebooks for Caffe.
@@ -83,7 +89,7 @@ There are scripts for nolearn networks and ipython notebooks for Caffe.
 * http://arxiv.org/pdf/1508.06576v2.pdf
 
 
-####7) Other shit to learn:
+####6) Other shit to learn:
    Auto-encoder, (standard, variational), Recurrent neural nets, Recurrent-CNNs, Sparse distributed Representations, Deep-belief nets, Hopfield nets.
 
    Projects:

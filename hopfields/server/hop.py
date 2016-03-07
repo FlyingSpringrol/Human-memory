@@ -6,6 +6,13 @@ def sigmoid(x):
 def flip(x):
     return -x
 flipped = np.vectorize(flip)
+
+''''
+Shit to add:
+Visualization of nodes and asynch updates?
+
+
+'''
 class Hopfield(object):
     def __init__(self, targets, num_nodes, learning_rate = .01):
         self.targets = targets #targets must be array
