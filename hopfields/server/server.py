@@ -4,6 +4,7 @@ from hop import *
 import numpy as np
 import json
 import os
+import csv
 
 """
 Notes on flask: interesting that functions are declared below .route, and
@@ -18,7 +19,7 @@ Request objects, context object
 """
 app = Flask(__name__)
 test = {'a': 1, 'b':2}
-hop = Hopfield(num_nodes = 100, targets = []) #need to figure out a way to add new inputs to net
+hop = Hopfield(num_nodes = 784, targets = []) #need to figure out a way to add new inputs to net
 inputs = []
 
 def serialize_hop(hop_output): #return as a matrix of states
@@ -55,6 +56,29 @@ def translate(nump_array):
 
 def reset_hop():
     hop.reset_hop()
+
+def binary(val, threshold):
+    if (val > threshold):
+        return 1
+    else: return -1
+vec_bin = np.vectorize(binary)
+
+def load_mnist(path):
+    #load mnist data from csv, return the data in numpy arrays
+    data = []
+    with open(path, 'rb') as csvfile:
+        reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+        for line in reader:
+            data.append(vec_bin((np.asarray(line[1:])), 255/2))
+    return np.array(data)
+
+def run_mnist(mnist_data):
+    hop.reset_hop()
+    hop.hebb_train(mnist_data)
+
+def load_mnist():
+    mnist = load_mnist('../mnist_exs.csv')
+    run_mnist(mnist)
 
 @app.route('/')
 def sendFiles():

@@ -64,5 +64,5 @@ if __name__ == "__main__":
     data = rbm.insert_biases(data)
     dims = [784, 200, 50, 10]
     dbn_weights = generate_dbn_weights(dims)
-    dbn_weights = train_dbn(dbn_weights, data, max_epochs = 2000)
-#print data.shape
+    dbn_weights = unpickle('../weights/300_dbn.pkl')
+    #dbn_weights = train_dbn(dbn_weights, data, max_epochs = 2000)

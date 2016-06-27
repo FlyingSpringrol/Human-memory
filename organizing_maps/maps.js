@@ -10,7 +10,8 @@ Uses?
 
 Stages: Ordering and Convergence
 
-
+TODO:
+Incremental training: show changes over time
 
 */
 
