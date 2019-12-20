@@ -7,20 +7,11 @@ def flip(x):
     return -x
 flipped = np.vectorize(flip)
 
-''''
-Shit to add:
-Visualization of nodes and asynch updates?
-
-
-'''
 class Hopfield(object):
-    def __init__(self, targets, num_nodes, learning_rate = .01):
-        self.targets = targets #targets must be array
+    def __init__(self, num_nodes, learning_rate = .01):
         self.num_nodes = num_nodes
         self.weights = np.zeros((self.num_nodes, self.num_nodes))
         self.states = np.zeros(self.num_nodes)
-
-        #self.hebb_train(targets)
 
     def calc_weight(self, i, j, patterns):
         weight_ij = 0.0
@@ -31,8 +22,8 @@ class Hopfield(object):
 
     def calc_weights(self, patterns):
         w = np.copy(self.weights)
-        for i in xrange(self.num_nodes):
-            for j in xrange(self.num_nodes):
+        for i in range(self.num_nodes):
+            for j in range(self.num_nodes):
                 w[i][j] = self.calc_weight(i, j, patterns)
         return w
 
@@ -40,6 +31,7 @@ class Hopfield(object):
         self.weights = weights
 
     def hebb_train(self, patterns):
+        print(len(patterns)) 
         w = self.calc_weights(patterns)
         w = np.matrix(w)
         w = w - np.identity(self.num_nodes)
@@ -55,48 +47,29 @@ class Hopfield(object):
                 state += self.weights[node, i] * self.states[i]
         return 1.0 if state > 0 else -1.0
 
-    def run(self, pattern, max_iterations = 15):
+    def run(self, pattern, max_iterations = 100):
         self.states = np.copy(pattern)
         changed = False
-        update_list = range(len(self.states))
-        for i in xrange(max_iterations):
+        update_list = list(range(len(self.states)))
+        for i in range(max_iterations):
             rand.shuffle(update_list)
             changed = False
             for node in update_list:
                 new_state = self.async_update(node, pattern)
                 if new_state != self.states[node]:
-                    print 'change'
                     changed = True
                 self.states[node] = new_state
             if not changed:
                 return (True, self.states)
         return (False, self.states)
 
-    def sync_update(self, pattern):
-        return 1
     def print_weights(self):
         toprint= self.weights.flatten()
         for i in toprint:
-            print i
-    def set_targets(self,targets):
-        self.targets = targets
+            print(i)
 
     def reset_hop(self):
-        self.targets = []
         self.weights = np.zeros((self.num_nodes, self.num_nodes))
         self.states = np.zeros(self.num_nodes)
-    def reset_states(self):
-        self.states = np.zeros(self.num_nodes)
 
-def test():
-    #returning inverses? Why?
-    a = [1,-1,-1,-1,1]
-    b = [-1,-1,-1,-1,-1]
-    d = [1,1,-1,-1,1]
-    e = [-1,-1,-1,1,-1]
-    hop = Hopfield([a,b])
-    c = hop.run(e)
-    f = hop.run(d)
-    print c
-    print f
-    print hop.weights
+

@@ -14,8 +14,6 @@
          /*
          Things to do! Make js functions more modular, migrate logic to different files
 
-
-
          */
          //grid declaration
          var unitWidth = 10;
@@ -58,12 +56,12 @@
 
          train.addEventListener('click', function(){
             var json = JSON.stringify(grid);
+            console.log(json.length);
             sendData(trainUrl, grid, success, failure, json);
          });
          run.addEventListener('click', function(){
             var json = JSON.stringify(grid);
             var result = sendData(runUrl, grid2, processJSON, failure, json);
-            //grid2 should be modified directly?
          });
          reset.addEventListener('click', function(){
             resetNet(resetUrl);
